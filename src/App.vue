@@ -21,7 +21,6 @@ export default defineComponent({
   },
   watch: {
     $route(to, from) {
-      console.log(to, from);
       if (to.meta.index === 1 && from.meta.index === 0) {
         this.transitionName = 'up';
       } else if (to.meta.index === 0) {
@@ -49,6 +48,12 @@ html, body {
   overflow: hidden;
   height: 100%;
   width: 100%;
+}
+
+h1 {
+  font-size: 28px;
+  margin: 0;
+  padding: 8px;
 }
 
 section#app {

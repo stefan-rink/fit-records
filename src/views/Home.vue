@@ -40,10 +40,7 @@ header {
   left: 0;
 
   h1 {
-    margin: 0;
-    font-size: 28px;
     text-align: center;
-    padding: 8px;
   }
 }
 
