@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="width:0; height:0; position:absolute; overflow:hidden;">
+    <defs>
+        <!-- #add: Add icon -->
+        <symbol viewBox="0 0 24 24" id="add" fill-rule="evenodd" clip-rule="evenodd">
+            <path d="M11 11v-11h1v11h11v1h-11v11h-1v-11h-11v-1h11z"/>
+        </symbol>
+
+        <!-- #close: Close icon -->
+        <symbol viewBox="0 0 24 24" id="close" fill-rule="evenodd" clip-rule="evenodd">
+            <path d="M12 11.293l10.293-10.293.707.707-10.293 10.293 10.293 10.293-.707.707-10.293-10.293-10.293 10.293-.707-.707 10.293-10.293-10.293-10.293.707-.707 10.293 10.293z"/>
+        </symbol>
+
+        <!-- #back: Back icon -->
+        <symbol viewBox="0 0 24 24" id="back" fill-rule="evenodd" clip-rule="evenodd">
+            <path d="M20 .755l-14.374 11.245 14.374 11.219-.619.781-15.381-12 15.391-12 .609.755z"/></symbol>
+    </defs>
+</svg>
