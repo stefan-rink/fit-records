@@ -42,7 +42,7 @@ export default defineComponent({
   font-family: "Poppins", normal, sans-serif;
 }
 
-html, body {
+html, body, div#app {
   padding: 0;
   margin: 0;
   overflow: hidden;
