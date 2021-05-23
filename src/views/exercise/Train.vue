@@ -5,19 +5,18 @@
     <div class="train-content">
       <h1>Push Ups</h1>
       <Slider v-model:model-value="reps" unit="reps" />
-      <Slider delta=2.5 />
+      <Slider delta="2.5" />
     </div>
-
   </section>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import Header from '@/views/exercise/components/Header.vue';
-import Slider from '@/views/exercise/components/Slider.vue';
+import { defineComponent } from "vue";
+import Header from "@/views/exercise/components/Header.vue";
+import Slider from "@/views/exercise/components/Slider.vue";
 
 export default defineComponent({
-  name: 'Train',
+  name: "Train",
   components: { Slider, Header },
   data() {
     return {

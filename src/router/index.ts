@@ -1,26 +1,28 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
-import ExerciseList from '@/views/exercise/ExerciseList.vue';
-import Train from '@/views/exercise/Train.vue';
-import Home from '@/views/Home.vue';
+import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
+import ExerciseList from "@/views/exercise/ExerciseList.vue";
+import Train from "@/views/exercise/Train.vue";
+import Home from "@/views/Home.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: '/',
-    name: 'Home',
+    path: "/",
+    name: "Home",
     component: Home,
     meta: {
       index: 0,
     },
-  }, {
-    path: '/list',
-    name: 'ExerciseList',
+  },
+  {
+    path: "/list",
+    name: "ExerciseList",
     component: ExerciseList,
     meta: {
       index: 1,
     },
-  }, {
-    path: '/train',
-    name: 'Train',
+  },
+  {
+    path: "/train",
+    name: "Train",
     component: Train,
     meta: {
       index: 2,

@@ -9,24 +9,24 @@
 </template>
 
 <script lang="ts">
-import Home from '@/views/Home.vue';
-import { defineComponent } from 'vue';
+import Home from "@/views/Home.vue";
+import { defineComponent } from "vue";
 
 export default defineComponent({
   components: { Home },
   data() {
     return {
-      transitionName: '',
+      transitionName: "",
     };
   },
   watch: {
     $route(to, from) {
       if (to.meta.index === 1 && from.meta.index === 0) {
-        this.transitionName = 'up';
+        this.transitionName = "up";
       } else if (to.meta.index === 0) {
-        this.transitionName = 'down';
+        this.transitionName = "down";
       } else {
-        this.transitionName = to.meta.index > from.meta.index ? 'next' : 'prev';
+        this.transitionName = to.meta.index > from.meta.index ? "next" : "prev";
       }
     },
   },
@@ -42,7 +42,9 @@ export default defineComponent({
   font-family: "Poppins", normal, sans-serif;
 }
 
-html, body, div#app {
+html,
+body,
+div#app {
   padding: 0;
   margin: 0;
   overflow: hidden;

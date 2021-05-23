@@ -3,8 +3,14 @@
     <button @click="decrement">-</button>
     <div class="input-wrapper">
       <div class="input">
-        <input ref="number-input" type="number" v-model="value"
-               size="4" maxlength="4" @keyup="resize"/>
+        <input
+          ref="number-input"
+          type="number"
+          v-model="value"
+          size="4"
+          maxlength="4"
+          @keyup="resize"
+        />
         <span ref="shadow" class="shadow-width"></span>
         <span class="unit">{{ unit }}</span>
       </div>
@@ -14,14 +20,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: 'Slider',
+  name: "Slider",
   props: {
     unit: {
       type: String,
-      default: 'kg',
+      default: "kg",
     },
     delta: {
       type: Number,
@@ -44,7 +50,7 @@ export default defineComponent({
   methods: {
     resize() {
       const shadowElement = this.$refs.shadow as HTMLElement;
-      const inputElement = this.$refs['number-input'] as HTMLInputElement;
+      const inputElement = this.$refs["number-input"] as HTMLInputElement;
       shadowElement.innerText = this.value.toString();
       inputElement.style.width = `${shadowElement.clientWidth}px`;
     },
@@ -59,7 +65,7 @@ export default defineComponent({
   },
   watch: {
     value(val) {
-      this.$emit('update:modelValue', val);
+      this.$emit("update:modelValue", val);
     },
   },
 });
@@ -82,7 +88,7 @@ export default defineComponent({
       width: auto;
       display: flex;
 
-      input[type=number] {
+      input[type="number"] {
         width: 24px;
         text-align: right;
         border: 0;
@@ -93,8 +99,8 @@ export default defineComponent({
         padding: 0;
       }
 
-      input[type=number]::-webkit-outer-spin-button,
-      input[type=number]::-webkit-inner-spin-button {
+      input[type="number"]::-webkit-outer-spin-button,
+      input[type="number"]::-webkit-inner-spin-button {
         -webkit-appearance: none;
         margin: 0;
       }

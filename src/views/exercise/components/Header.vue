@@ -1,26 +1,26 @@
 <template>
-    <div class="header">
-      <router-link v-if="back" :to="back">
-        <svg class="icon back-icon">
-          <use :xlink:href="`${require('@/assets/icons.svg')}#back`"></use>
-        </svg>
-      </router-link>
-      <h1>
-        <slot></slot>
-      </h1>
-      <router-link v-if="close" :to="close">
-        <svg class="icon close-icon">
-          <use :xlink:href="`${require('@/assets/icons.svg')}#close`"></use>
-        </svg>
-      </router-link>
-    </div>
+  <div class="header">
+    <router-link v-if="back" :to="back">
+      <svg class="icon back-icon">
+        <use :xlink:href="`${require('@/assets/icons.svg')}#back`"></use>
+      </svg>
+    </router-link>
+    <h1>
+      <slot></slot>
+    </h1>
+    <router-link v-if="close" :to="close">
+      <svg class="icon close-icon">
+        <use :xlink:href="`${require('@/assets/icons.svg')}#close`"></use>
+      </svg>
+    </router-link>
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: 'Header',
+  name: "Header",
   props: {
     title: String,
     back: String,
