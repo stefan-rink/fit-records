@@ -5,7 +5,7 @@
     <div class="train-content">
       <h1>Push Ups</h1>
       <Slider v-model:model-value="reps" unit="reps" />
-      <Slider delta="2.5" />
+      <Slider :delta="2.5" />
     </div>
   </section>
 </template>

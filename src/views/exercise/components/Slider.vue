@@ -55,16 +55,18 @@ export default defineComponent({
       inputElement.style.width = `${shadowElement.clientWidth}px`;
     },
     increment() {
-      this.value += parseFloat(this.delta.toString());
+      this.value += this.delta;
       this.resize();
     },
     decrement() {
-      this.value -= parseFloat(this.delta.toString());
+      this.value -= this.delta;
       this.resize();
     },
   },
   watch: {
     value(val) {
+      if (!this.value) this.value = 0;
+      else this.value = parseFloat(String(this.value));
       this.$emit("update:modelValue", val);
     },
   },
