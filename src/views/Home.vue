@@ -15,10 +15,21 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import store from "@/store";
+import { Workout } from "@/models/Workout";
 
 export default defineComponent({
   name: "Home",
   components: {},
+  data() {
+    return {
+      workout: {} as Workout,
+    };
+  },
+  async beforeCreate() {
+    // Get workout for current day
+    this.workout = await store.dispatch("getWorkout");
+  },
 });
 </script>
 
