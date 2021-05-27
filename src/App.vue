@@ -58,6 +58,16 @@ h1 {
   padding: 8px;
 }
 
+button.btn {
+  background-color: #e4e4e4;
+  border: 0;
+  box-shadow: none;
+  display: block;
+  width: 100%;
+  height: 48px;
+  font-size: 20px;
+}
+
 section#app {
   display: grid;
   grid-template: "main";

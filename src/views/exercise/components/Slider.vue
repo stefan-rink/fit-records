@@ -76,7 +76,6 @@ export default defineComponent({
 <style scoped lang="less">
 .container {
   border: 1px solid black;
-  margin: 8px;
   display: flex;
   align-content: center;
   position: relative;

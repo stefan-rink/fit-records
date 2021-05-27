@@ -2,6 +2,7 @@ import { createStore } from "vuex";
 import { Workout } from "@/models/Workout";
 import { Database } from "@/database";
 import { Exercise } from "@/models/Exercise";
+import { TrainingSet } from "@/models/training-set";
 
 export class RootState {
   /**
@@ -49,12 +50,43 @@ export default createStore({
         return await context.state.db.workouts.put(context.state.selectedWorkout);
     },
 
-    getExercises(context): Promise<Exercise[]> {
+    /**
+     * Returns all exercises
+     */
+    getExercises(context, exerciseIds: number[]): Promise<Exercise[]> {
+      if (exerciseIds !== undefined) {
+        return context.state.db.exercises.bulkGet(exerciseIds) as Promise<Exercise[]>;
+      }
       return context.state.db.exercises.toArray();
     },
 
+    /**
+     * Returns the exercise matching the id or undefined
+     */
     getExercise(context, exerciseId: number): Promise<Exercise | undefined> {
       return context.state.db.exercises.get(exerciseId);
+    },
+
+    /**
+     * Add a new training set to the db
+     */
+    addTrainingSet(context, trainingSet: TrainingSet) {
+      return context.state.db.trainingSets.put(trainingSet);
+    },
+
+    /**
+     * Returns all trainings set matching the exercise of a specific workout
+     */
+    getTrainingSets(context, [workoutId, exerciseId]): Promise<TrainingSet[]> {
+      // Build the filter object to gather the right training sets
+      let filter = {};
+      if (exerciseId) {
+        filter = { workoutId: workoutId, exerciseId: exerciseId };
+      } else {
+        filter = { workoutId: workoutId };
+      }
+
+      return context.state.db.trainingSets.where(filter).toArray();
     },
   },
 });

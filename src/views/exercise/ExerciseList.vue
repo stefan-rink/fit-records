@@ -4,7 +4,7 @@
 
     <ul>
       <li v-for="exercise in exercises" :key="exercise">
-        <router-link :to="{ path: 'train', params: { exerciseId: exercise.id } }">
+        <router-link :to="{ name: 'Train', params: { exerciseId: exercise.id } }">
           {{ exercise.name }}
         </router-link>
       </li>

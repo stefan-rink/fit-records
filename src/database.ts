@@ -13,8 +13,8 @@ export class Database extends Dexie {
 
     // Register indexeddb indices
     this.version(1).stores({
-      workouts: "++id, [year+month+day]",
-      trainingSets: "++id",
+      workouts: "++id, &[year+month+day]",
+      trainingSets: "++id, [workoutId+exerciseId]",
       exercises: "++id",
     });
 

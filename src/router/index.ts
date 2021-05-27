@@ -24,6 +24,7 @@ const routes: Array<RouteRecordRaw> = [
     path: "/train",
     name: "Train",
     component: Train,
+    props: true,
     meta: {
       index: 2,
     },
