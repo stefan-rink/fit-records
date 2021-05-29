@@ -64,6 +64,12 @@ export default defineComponent({
     },
   },
   watch: {
+    // Watch for external changes
+    modelValue(val) {
+      this.value = parseFloat(val);
+      this.resize();
+    },
+
     value(val) {
       if (!this.value) this.value = 0;
       else this.value = parseFloat(String(this.value));

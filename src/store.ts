@@ -88,5 +88,20 @@ export default createStore({
 
       return context.state.db.trainingSets.where(filter).toArray();
     },
+
+    /**
+     * Update a existing training set
+     */
+    async updateTrainingSet(context, trainingSet: TrainingSet): Promise<TrainingSet | null> {
+      // If key is existing
+      if (typeof trainingSet.id === "number") {
+        // Clone object, without it could not be stored
+        trainingSet = JSON.parse(JSON.stringify(trainingSet));
+        // Update the entry
+        await context.state.db.trainingSets.put(trainingSet);
+        return trainingSet;
+      }
+      return null;
+    },
   },
 });

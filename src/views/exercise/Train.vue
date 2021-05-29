@@ -3,14 +3,25 @@
     <Header back="list" close="/">Train hard!</Header>
 
     <div class="train-content">
-      <h1>{{ exercise.name }}</h1>
+      <h1>
+        {{ exercise.name }} <span v-if="editing > -1">editing set no. {{ editing + 1 }}</span>
+      </h1>
       <Slider class="slider" v-model:model-value="reps" unit="reps" />
       <Slider class="slider" v-model:model-value="weight" :delta="2.5" />
       <button class="btn" @click="addTrainingSet">Done</button>
 
+      <h2 class="train-sets-headline">Already finished</h2>
       <ol>
-        <li :key="trainingSet" v-for="trainingSet of trainingSets">
-          {{ trainingSet.weight }} {{ trainingSet.reps }}
+        <li :key="trainingSet" v-for="(trainingSet, index) of trainingSets">
+          <div class="train-set-content">
+            <span>{{ trainingSet.reps }} reps</span>
+            <span>{{ trainingSet.weight }} kg</span>
+            <span>
+              <svg class="icon" @click="editSet(index)">
+                <use :xlink:href="`${require('@/assets/icons.svg')}#edit`"></use>
+              </svg>
+            </span>
+          </div>
         </li>
       </ol>
     </div>
@@ -42,10 +53,16 @@ export default defineComponent({
       weight: 20,
       todaysWorkout: {} as Workout,
       trainingSets: [] as Array<TrainingSet>,
+      editing: -1, // -1 -> not editing, else the index of the editing training set
     };
   },
   methods: {
     async addTrainingSet() {
+      if (this.editing > -1) {
+        await this.editTrainingSet();
+        return;
+      }
+
       // Add the new training set
       const trainingSet = new TrainingSet(
         this.todaysWorkout.id as number,
@@ -60,6 +77,35 @@ export default defineComponent({
         this.todaysWorkout.id,
         this.exercise.id,
       ]);
+    },
+
+    /**
+     * Start editing a training set
+     */
+    editSet(index: number) {
+      this.editing = index;
+
+      const trainingSet = this.trainingSets[this.editing];
+      this.weight = trainingSet.weight;
+      this.reps = trainingSet.reps;
+    },
+    /**
+     * Update the training set which ist currently in edit mode
+     */
+    async editTrainingSet() {
+      const trainingSet = this.trainingSets[this.editing];
+
+      trainingSet.reps = this.reps;
+      trainingSet.weight = this.weight;
+
+      // Reassign the edited training set
+      this.trainingSets[this.editing] = trainingSet;
+
+      // Safe in db
+      await store.dispatch("updateTrainingSet", trainingSet);
+
+      // End editing
+      this.editing = -1;
     },
   },
   async beforeCreate() {
@@ -83,15 +129,42 @@ export default defineComponent({
   width: 100%;
 
   .train-content {
-    padding: 16px;
+    padding: 32px 16px 16px;
 
     h1 {
       padding: 0;
+
+      span {
+        font-style: italic;
+        font-size: 16px;
+        color: #666;
+      }
     }
 
     .slider,
     h1 {
       margin-bottom: 8px;
+    }
+
+    .train-sets-headline {
+      margin-top: 48px;
+    }
+
+    ol {
+      font-size: 20px;
+
+      li .train-set-content {
+        display: grid;
+        max-width: 300px;
+        grid-template-columns: 1fr 1fr 1fr;
+        padding-left: 16px;
+
+        .icon {
+          width: 24px;
+          height: 24px;
+          cursor: pointer;
+        }
+      }
     }
   }
 }

@@ -6,6 +6,7 @@ export class TrainingSet {
     public workoutId: number,
     public exerciseId: number,
     public reps: number,
-    public weight: number
+    public weight: number,
+    public id?: number
   ) {}
 }

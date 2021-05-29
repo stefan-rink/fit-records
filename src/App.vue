@@ -66,6 +66,7 @@ button.btn {
   width: 100%;
   height: 48px;
   font-size: 20px;
+  cursor: pointer;
 }
 
 section#app {
