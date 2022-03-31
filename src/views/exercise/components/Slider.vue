@@ -137,6 +137,7 @@ export default defineComponent({
     font-size: 30px;
     padding: 4px 20px;
     cursor: pointer;
+    color: #333;
   }
 }
 </style>
