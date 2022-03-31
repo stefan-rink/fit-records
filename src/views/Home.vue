@@ -5,15 +5,28 @@
     </header>
 
     <div class="home-content">
-      <div class="exercise" v-for="exercise of exercises" :key="exercise">
-        <h2>{{ exercise.name }}</h2>
-        <ol>
-          <li class="train-set" v-for="trainingSet of trainingSets[exercise.id]" :key="trainingSet">
-            <div class="train-set-content">
-              <span>{{ trainingSet.reps }} reps</span><span>{{ trainingSet.weight }} kg</span>
-            </div>
-          </li>
-        </ol>
+      <template v-if="exercises.length">
+        <div class="exercise" v-for="exercise of exercises" :key="exercise">
+          <h2>{{ exercise.name }}</h2>
+          <ol>
+            <li
+              class="train-set"
+              v-for="trainingSet of trainingSets[exercise.id]"
+              :key="trainingSet"
+            >
+              <div class="train-set-content">
+                <span>{{ trainingSet.reps }} reps</span><span>{{ trainingSet.weight }} kg</span>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </template>
+      <div v-else>
+        <img
+          class="empty-log-image"
+          alt="Empty log"
+          :src="`${require('@/assets/undraw_empty.svg')}`"
+        />
       </div>
     </div>
 
@@ -136,6 +149,14 @@ header {
         padding-left: 16px;
       }
     }
+  }
+
+  .empty-log-image {
+    display: block;
+    height: auto;
+    width: 60%;
+    margin: 80px auto 0;
+    opacity: 0.3;
   }
 }
 
