@@ -118,11 +118,12 @@ header {
   bottom: 0;
   right: 0;
   left: 0;
-  height: 64px;
+  height: calc(64px + calc(env(safe-area-inset-bottom) / 2));
   background: #e4e4e4;
   display: flex;
   justify-content: center;
   align-items: center;
+  padding-bottom: calc(env(safe-area-inset-bottom) / 4);
 }
 
 .home-content {
