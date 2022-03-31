@@ -50,6 +50,7 @@ div#app {
   overflow: hidden;
   height: 100%;
   width: 100%;
+  touch-action: none;
 }
 
 h1 {
