@@ -59,6 +59,17 @@ h1 {
   padding: 8px;
 }
 
+input[type="text"] {
+  border: 0;
+  border-bottom: 1px solid black;
+  outline: 0;
+  font-size: 20px;
+
+  &:active {
+    border-bottom: 2px;
+  }
+}
+
 button.btn {
   background-color: #e4e4e4;
   border: 0;

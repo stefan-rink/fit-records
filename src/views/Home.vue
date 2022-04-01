@@ -156,6 +156,7 @@ header {
     display: block;
     height: auto;
     width: 60%;
+    max-width: 200px;
     margin: 80px auto 0;
     opacity: 0.3;
   }
