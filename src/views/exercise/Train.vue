@@ -2,7 +2,7 @@
   <section class="train-wrapper">
     <Header back="list" close="/">Train hard!</Header>
 
-    <div class="train-content">
+    <main>
       <h1>
         {{ exercise.name }} <span v-if="editing > -1">editing set no. {{ editing + 1 }}</span>
       </h1>
@@ -10,7 +10,7 @@
       <Slider class="slider" v-model:model-value="weight" :delta="2.5" />
       <button class="btn" @click="addTrainingSet">Done</button>
 
-      <h2 class="train-sets-headline">Already finished</h2>
+      <h2 v-if="trainingSets.length" class="train-sets-headline">Already finished</h2>
       <ol>
         <li :key="trainingSet" v-for="(trainingSet, index) of trainingSets">
           <div class="train-set-content">
@@ -24,7 +24,7 @@
           </div>
         </li>
       </ol>
-    </div>
+    </main>
   </section>
 </template>
 
@@ -124,11 +124,11 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
-.train-wrapper {
+section {
   height: 100%;
   width: 100%;
 
-  .train-content {
+  main {
     padding: 32px 16px 16px;
 
     h1 {

@@ -2,6 +2,7 @@ import { createMemoryHistory, createRouter, RouteRecordRaw } from "vue-router";
 import ExerciseList from "@/views/exercise/ExerciseList.vue";
 import Train from "@/views/exercise/Train.vue";
 import Home from "@/views/Home.vue";
+import Exercise from "@/views/exercise/Exercise.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -27,6 +28,15 @@ const routes: Array<RouteRecordRaw> = [
     props: true,
     meta: {
       index: 2,
+    },
+  },
+  {
+    path: "/exercise",
+    name: "Exercise",
+    component: Exercise,
+    props: true,
+    meta: {
+      index: 3,
     },
   },
 ];

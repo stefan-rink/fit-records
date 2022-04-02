@@ -1,11 +1,11 @@
 <template>
-  <section id="app">
+  <div id="app-wrapper">
     <router-view v-slot="{ Component }" class="drawer-content">
       <transition :name="transitionName">
         <component :is="Component" />
       </transition>
     </router-view>
-  </section>
+  </div>
 </template>
 
 <script lang="ts">
@@ -70,6 +70,22 @@ input[type="text"] {
   }
 }
 
+main {
+  width: 100%;
+  max-width: 560px;
+  margin: 16px auto;
+
+  h1 {
+    margin-bottom: 16px;
+    padding: 0;
+  }
+
+  input[type="text"] {
+    width: 100%;
+    margin-bottom: 16px;
+  }
+}
+
 button.btn {
   background-color: #e4e4e4;
   border: 0;
@@ -82,7 +98,7 @@ button.btn {
   color: #333;
 }
 
-section#app {
+div#app-wrapper {
   display: grid;
   grid-template: "main";
   background-color: white;

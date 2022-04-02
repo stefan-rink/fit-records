@@ -57,7 +57,7 @@ export default createStore({
       if (exerciseIds !== undefined) {
         return context.state.db.exercises.bulkGet(exerciseIds) as Promise<Exercise[]>;
       }
-      return context.state.db.exercises.toArray();
+      return context.state.db.exercises.orderBy("name").toArray();
     },
 
     /**
@@ -65,6 +65,14 @@ export default createStore({
      */
     getExercise(context, exerciseId: number): Promise<Exercise | undefined> {
       return context.state.db.exercises.get(exerciseId);
+    },
+
+    /**
+     * Stores an exercise into the db
+     * @return id of the entry
+     */
+    setExercise(context, exercise: Exercise): Promise<number> {
+      return context.state.db.exercises.put(exercise);
     },
 
     /**

@@ -15,7 +15,7 @@ export class Database extends Dexie {
     this.version(1).stores({
       workouts: "++id, &[year+month+day]",
       trainingSets: "++id, [workoutId+exerciseId]",
-      exercises: "++id",
+      exercises: "++id, &name",
     });
 
     this.workouts = this.table("workouts");
