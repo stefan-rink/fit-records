@@ -11,6 +11,9 @@ export class Database extends Dexie {
   constructor() {
     super("database");
 
+    // Make indexeddb database persistent
+    navigator.storage && navigator.storage.persist && navigator.storage.persist();
+
     // Register indexeddb indices
     this.version(1).stores({
       workouts: "++id, &[year+month+day]",
