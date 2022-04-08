@@ -2,7 +2,7 @@ import { createStore } from "vuex";
 import { Workout } from "@/models/Workout";
 import { Database } from "@/database";
 import { Exercise } from "@/models/Exercise";
-import { TrainingSet } from "@/models/training-set";
+import { TrainingSet } from "@/models/TrainingSet";
 
 export class RootState {
   /**
@@ -30,19 +30,51 @@ export default createStore({
   },
   actions: {
     async getWorkout(context): Promise<Workout> {
-      // Today's data, to specify the workout
+      // Today's date, to specify the workout
       const todayDate = new Date();
 
       context.commit(
         "setSelectedWorkout",
         (await context.state.db.workouts.get({
           year: todayDate.getFullYear(),
-          month: todayDate.getMonth(),
+          month: todayDate.getMonth() + 1,
           day: todayDate.getUTCDate(),
-        })) ?? new Workout(todayDate.getUTCDate(), todayDate.getMonth(), todayDate.getFullYear())
+        })) ??
+          new Workout(todayDate.getUTCDate(), todayDate.getMonth() + 1, todayDate.getFullYear())
       );
 
       return context.state.selectedWorkout as Workout;
+    },
+
+    async getPreviousWorkout(
+      context,
+      currentWorkoutId = Number.MAX_SAFE_INTEGER
+    ): Promise<Workout> {
+      // TODO: Change to date instead of ID?
+      const workout = await this.state.db.workouts.where("id").below(currentWorkoutId).last();
+
+      if (!workout) {
+        throw new Error("Could not get prev workout");
+      }
+
+      context.commit("setSelectedWorkout", workout);
+
+      return workout;
+    },
+
+    async getNextWorkout(context, currentWorkoutId: number) {
+      // TODO: Change to date instead of ID?
+      const workout = await this.state.db.workouts.where("id").above(currentWorkoutId).first();
+
+      console.log(workout);
+
+      if (!workout) {
+        return context.dispatch("getWorkout");
+      }
+
+      context.commit("setSelectedWorkout", workout);
+
+      return workout;
     },
 
     async saveSelectedWorkout(context) {

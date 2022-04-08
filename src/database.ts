@@ -1,6 +1,6 @@
 import Dexie from "dexie";
 import { Workout } from "@/models/Workout";
-import { TrainingSet } from "@/models/training-set";
+import { TrainingSet } from "@/models/TrainingSet";
 import { Exercise } from "@/models/Exercise";
 
 export class Database extends Dexie {

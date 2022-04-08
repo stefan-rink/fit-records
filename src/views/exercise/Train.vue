@@ -34,7 +34,7 @@ import Header from "@/views/exercise/components/Header.vue";
 import Slider from "@/views/exercise/components/Slider.vue";
 import { Exercise } from "@/models/Exercise";
 import store from "@/store";
-import { TrainingSet } from "@/models/training-set";
+import { TrainingSet } from "@/models/TrainingSet";
 import { Workout } from "@/models/Workout";
 
 export default defineComponent({

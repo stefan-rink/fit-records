@@ -59,6 +59,11 @@ h1 {
   padding: 8px;
 }
 
+svg {
+  width: 24px;
+  height: 24px;
+}
+
 input[type="text"] {
   border: 0;
   border-bottom: 1px solid black;

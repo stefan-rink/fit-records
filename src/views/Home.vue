@@ -1,10 +1,20 @@
 <template>
   <section>
     <header>
-      <h1>Today</h1>
+      <div class="switch-workout" @click="previousWorkout">
+        <svg>
+          <use :xlink:href="`${require('@/assets/icons.svg')}#back`"></use>
+        </svg>
+      </div>
+      <h1>{{ getWorkoutDate() }}</h1>
+      <div class="switch-workout" @click="nextWorkout">
+        <svg>
+          <use :xlink:href="`${require('@/assets/icons.svg')}#forward`"></use>
+        </svg>
+      </div>
     </header>
 
-    <div class="home-content">
+    <main class="home-content">
       <template v-if="exercises.length">
         <div class="exercise" v-for="exercise of exercises" :key="exercise">
           <h2>{{ exercise.name }}</h2>
@@ -28,7 +38,7 @@
           :src="`${require('@/assets/undraw_empty.svg')}`"
         />
       </div>
-    </div>
+    </main>
 
     <nav class="bottom-toolbar">
       <router-link to="list">
@@ -44,7 +54,7 @@
 import { defineComponent } from "vue";
 import store from "@/store";
 import { Workout } from "@/models/Workout";
-import { TrainingSet } from "@/models/training-set";
+import { TrainingSet } from "@/models/TrainingSet";
 import { Exercise } from "@/models/Exercise";
 
 export default defineComponent({
@@ -66,26 +76,62 @@ export default defineComponent({
       return;
     }
 
-    // Get the workouts training sets
-    const trainingSets: TrainingSet[] = await store.dispatch("getTrainingSets", [
-      this.workout.id,
-      undefined,
-    ]);
+    await this.fetchExercises();
+  },
+  methods: {
+    async fetchExercises() {
+      // Skip if no workout is available in the database
+      if (!this.workout.id) {
+        this.exercises = [];
+        return;
+      }
 
-    // Get all exercises down in the specific workout
-    this.exercises = await store.dispatch(
-      "getExercises",
-      trainingSets
-        .map((set) => set.exerciseId) // Get only exerciseIds
-        .filter((exerciseId, index, array) => array.indexOf(exerciseId) == index) // Unique values
-    );
+      const trainingSets: TrainingSet[] = await store.dispatch("getTrainingSets", [
+        this.workout.id,
+        undefined,
+      ]);
 
-    // Group the training sets by the exercises
-    this.exercises.forEach((exercise) => {
-      this.trainingSets[exercise.id as number] = trainingSets.filter(
-        (trainingSet) => trainingSet.exerciseId === exercise.id
+      // Get all exercises down in the specific workout
+      this.exercises = await store.dispatch(
+        "getExercises",
+        trainingSets
+          .map((set) => set.exerciseId) // Get only exerciseIds
+          .filter((exerciseId, index, array) => array.indexOf(exerciseId) == index) // Unique values
       );
-    });
+
+      // Group the training sets by the exercises
+      this.exercises.forEach((exercise) => {
+        this.trainingSets[exercise.id as number] = trainingSets.filter(
+          (trainingSet) => trainingSet.exerciseId === exercise.id
+        );
+      });
+    },
+
+    async nextWorkout() {
+      this.workout = await store.dispatch("getNextWorkout", this.workout.id);
+
+      await this.fetchExercises();
+    },
+
+    async previousWorkout() {
+      this.workout = await store.dispatch("getPreviousWorkout", this.workout.id);
+
+      await this.fetchExercises();
+    },
+
+    getWorkoutDate() {
+      const date = new Date();
+
+      if (
+        this.workout.day == date.getUTCDate() &&
+        this.workout.month == date.getMonth() + 1 &&
+        this.workout.year == date.getFullYear()
+      ) {
+        return "Today";
+      }
+
+      return `${this.workout.day}.${this.workout.month}.${this.workout.year}`;
+    },
   },
 });
 </script>
@@ -110,6 +156,11 @@ header {
 
   h1 {
     text-align: center;
+  }
+
+  & > div {
+    cursor: pointer;
+    margin: 0 48px 10px;
   }
 }
 
