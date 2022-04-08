@@ -66,8 +66,6 @@ export default createStore({
       // TODO: Change to date instead of ID?
       const workout = await this.state.db.workouts.where("id").above(currentWorkoutId).first();
 
-      console.log(workout);
-
       if (!workout) {
         return context.dispatch("getWorkout");
       }
