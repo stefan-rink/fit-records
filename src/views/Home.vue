@@ -137,13 +137,19 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
+@header-height: 80px;
+@footer-height: calc(64px + calc(env(safe-area-inset-bottom) / 2));
+@footer-padding-bottom: calc(env(safe-area-inset-bottom) / 4);
+
 section {
   height: 100vh;
+  padding-top: @header-height;
+  padding-bottom: calc(@footer-height + @footer-padding-bottom);
 }
 
 header {
   background-color: #e4e4e4;
-  height: 80px;
+  height: @header-height;
   margin: 0;
   padding: 0;
   display: flex;
@@ -169,22 +175,28 @@ header {
   bottom: 0;
   right: 0;
   left: 0;
-  height: calc(64px + calc(env(safe-area-inset-bottom) / 2));
+  height: @footer-height;
   background: #e4e4e4;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-bottom: calc(env(safe-area-inset-bottom) / 4);
+  padding-bottom: @footer-padding-bottom;
 }
 
 .home-content {
-  margin-top: 80px;
   padding: 16px;
+  margin: 0;
+  overflow-y: auto;
+  height: 100%;
 
   .exercise {
     margin: 16px 0;
     padding: 0 16px;
     border-left: 12px solid #e4e4e4;
+
+    &:first-child {
+      margin-top: 0;
+    }
 
     h2 {
       font-size: 28px;
