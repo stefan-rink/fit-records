@@ -2,31 +2,36 @@
   <section class="exercise-list">
     <Header close="/">Exercises</Header>
     <main>
-      <div class="search-bar">
-        <label>
-          <input placeholder="Search..." v-model.trim="searchString" type="text" />
-          <svg class="search-bar-icon" v-if="searchString.length > 0" @click="searchString = ''">
-            <use :xlink:href="`${require('@/assets/icons.svg')}#close`"></use>
-          </svg>
-          <svg class="search-bar-icon" v-else>
-            <use :xlink:href="`${require('@/assets/icons.svg')}#search`"></use>
-          </svg>
-        </label>
+      <div class="content">
+        <div class="search-bar">
+          <label>
+            <input placeholder="Search..." v-model.trim="searchString" type="text" />
+            <svg class="search-bar-icon" v-if="searchString.length > 0" @click="searchString = ''">
+              <use :xlink:href="`${require('@/assets/icons.svg')}#close`"></use>
+            </svg>
+            <svg class="search-bar-icon" v-else>
+              <use :xlink:href="`${require('@/assets/icons.svg')}#search`"></use>
+            </svg>
+          </label>
 
-        <router-link class="add-exercise" :to="{ name: 'Exercise', params: { exerciseId: null } }">
-          <svg class="add-icon">
-            <use :xlink:href="`${require('@/assets/icons.svg')}#add`"></use>
-          </svg>
-        </router-link>
-      </div>
-
-      <ul>
-        <li v-for="exercise in filteredExercises" :key="exercise">
-          <router-link :to="{ name: 'Train', params: { exerciseId: exercise.id } }">
-            {{ exercise.name }}
+          <router-link
+            class="add-exercise"
+            :to="{ name: 'Exercise', params: { exerciseId: null } }"
+          >
+            <svg class="add-icon">
+              <use :xlink:href="`${require('@/assets/icons.svg')}#add`"></use>
+            </svg>
           </router-link>
-        </li>
-      </ul>
+        </div>
+
+        <ul>
+          <li v-for="exercise in filteredExercises" :key="exercise">
+            <router-link :to="{ name: 'Train', params: { exerciseId: exercise.id } }">
+              {{ exercise.name }}
+            </router-link>
+          </li>
+        </ul>
+      </div>
     </main>
   </section>
 </template>

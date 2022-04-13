@@ -15,28 +15,30 @@
     </header>
 
     <main class="home-content">
-      <template v-if="exercises.length">
-        <div class="exercise" v-for="exercise of exercises" :key="exercise">
-          <h2>{{ exercise.name }}</h2>
-          <ol>
-            <li
-              class="train-set"
-              v-for="trainingSet of trainingSets[exercise.id]"
-              :key="trainingSet"
-            >
-              <div class="train-set-content">
-                <span>{{ trainingSet.reps }} reps</span><span>{{ trainingSet.weight }} kg</span>
-              </div>
-            </li>
-          </ol>
+      <div class="content">
+        <template v-if="exercises.length">
+          <div class="exercise" v-for="exercise of exercises" :key="exercise">
+            <h2>{{ exercise.name }}</h2>
+            <ol>
+              <li
+                class="train-set"
+                v-for="trainingSet of trainingSets[exercise.id]"
+                :key="trainingSet"
+              >
+                <div class="train-set-content">
+                  <span>{{ trainingSet.reps }} reps</span><span>{{ trainingSet.weight }} kg</span>
+                </div>
+              </li>
+            </ol>
+          </div>
+        </template>
+        <div v-else>
+          <img
+            class="empty-log-image"
+            alt="Empty log"
+            :src="`${require('@/assets/undraw_empty.svg')}`"
+          />
         </div>
-      </template>
-      <div v-else>
-        <img
-          class="empty-log-image"
-          alt="Empty log"
-          :src="`${require('@/assets/undraw_empty.svg')}`"
-        />
       </div>
     </main>
 
@@ -137,14 +139,15 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
+@import "variables";
+
 @header-height: 80px;
-@footer-height: calc(64px + calc(env(safe-area-inset-bottom) / 2));
-@footer-padding-bottom: calc(env(safe-area-inset-bottom) / 4);
 
 section {
-  height: 100vh;
+  height: 100%;
   padding-top: @header-height;
-  padding-bottom: calc(@footer-height + @footer-padding-bottom);
+  padding-bottom: calc(@footer-height + calc(env(safe-area-inset-bottom)));
+  margin: 0 auto;
 }
 
 header {
@@ -180,14 +183,11 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-bottom: @footer-padding-bottom;
+  padding-bottom: calc(env(safe-area-inset-bottom) / 4);
 }
 
 .home-content {
   padding: 16px;
-  margin: 0;
-  overflow-y: auto;
-  height: 100%;
 
   .exercise {
     margin: 16px 0;

@@ -3,27 +3,48 @@
     <Header back="list" close="/">Train hard!</Header>
 
     <main>
-      <h1>
-        {{ exercise.name }} <span v-if="editing > -1">editing set no. {{ editing + 1 }}</span>
-      </h1>
-      <Slider class="slider" v-model:model-value="reps" unit="reps" />
-      <Slider class="slider" v-model:model-value="weight" :delta="2.5" />
-      <button class="btn" @click="addTrainingSet">Done</button>
+      <div class="content">
+        <h1>
+          {{ exercise.name }} <span v-if="editing > -1">editing set no. {{ editing + 1 }}</span>
+        </h1>
+        <Slider class="slider" v-model:model-value="reps" unit="reps" />
+        <Slider class="slider" v-model:model-value="weight" :delta="2.5" />
+        <button class="btn" @click="addTrainingSet">Done</button>
 
-      <h2 v-if="trainingSets.length" class="train-sets-headline">Already finished</h2>
-      <ol>
-        <li :key="trainingSet" v-for="(trainingSet, index) of trainingSets">
-          <div class="train-set-content">
-            <span>{{ trainingSet.reps }} reps</span>
-            <span>{{ trainingSet.weight }} kg</span>
-            <span>
-              <svg class="icon" @click="editSet(index)">
-                <use :xlink:href="`${require('@/assets/icons.svg')}#edit`"></use>
-              </svg>
-            </span>
-          </div>
-        </li>
-      </ol>
+        <div class="already-finished-reps">
+          <h2 v-if="trainingSets.length" class="train-sets-headline">Already finished</h2>
+          <ol>
+            <li :key="trainingSet" v-for="(trainingSet, index) of trainingSets">
+              <div class="train-set-content">
+                <span>{{ trainingSet.reps }} reps</span>
+                <span>{{ trainingSet.weight }} kg</span>
+                <span>
+                  <svg class="icon" @click="editSet(index)">
+                    <use :xlink:href="`${require('@/assets/icons.svg')}#edit`"></use>
+                  </svg>
+                </span>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <div class="last-set-done">
+          <h2 v-if="lastSet.length" class="train-sets-headline">Last set done</h2>
+          <ol>
+            <li :key="exercise" v-for="(exercise, index) of lastSet">
+              <div class="train-set-content">
+                <span>{{ exercise.reps }} reps</span>
+                <span>{{ exercise.weight }} kg</span>
+                <span>
+                  <svg class="icon" @click="editSet(index)">
+                    <use :xlink:href="`${require('@/assets/icons.svg')}#edit`"></use>
+                  </svg>
+                </span>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
     </main>
   </section>
 </template>
@@ -53,6 +74,7 @@ export default defineComponent({
       weight: 20,
       todaysWorkout: {} as Workout,
       trainingSets: [] as Array<TrainingSet>,
+      lastSet: [] as Array<Exercise>,
       editing: -1, // -1 -> not editing, else the index of the editing training set
     };
   },
@@ -119,6 +141,8 @@ export default defineComponent({
       this.todaysWorkout.id,
       this.exercise.id,
     ]);
+
+    this.lastSet = await store.dispatch("getLastSet", [this.exerciseId, this.todaysWorkout.id]);
   },
 });
 </script>
@@ -129,8 +153,6 @@ section {
   width: 100%;
 
   main {
-    padding: 32px 16px 16px;
-
     h1 {
       padding: 0;
 

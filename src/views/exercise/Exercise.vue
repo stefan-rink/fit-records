@@ -3,15 +3,17 @@
     <Header back="list" close="/">Exercises</Header>
 
     <main>
-      <h1 v-if="!exercise.id">Add new Exercise</h1>
-      <h1 v-else>Edit Exercise</h1>
+      <div class="content">
+        <h1 v-if="!exercise.id">Add new Exercise</h1>
+        <h1 v-else>Edit Exercise</h1>
 
-      <label>
-        Name:
-        <input type="text" v-model="exercise.name" />
-      </label>
+        <label>
+          Name:
+          <input type="text" v-model="exercise.name" />
+        </label>
 
-      <button class="btn" @click="save">Save</button>
+        <button class="btn" @click="save">Save</button>
+      </div>
     </main>
   </section>
 </template>

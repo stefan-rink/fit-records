@@ -128,7 +128,7 @@ export default createStore({
     },
 
     /**
-     * Update a existing training set
+     * Update an existing training set
      */
     async updateTrainingSet(context, trainingSet: TrainingSet): Promise<TrainingSet | null> {
       // If key is existing
@@ -140,6 +140,22 @@ export default createStore({
         return trainingSet;
       }
       return null;
+    },
+
+    /**
+     * Returns the set of an exercise from the previous workout
+     */
+    getLastSet: async function (context, [exerciseId, currentWorkoutId]): Promise<TrainingSet[]> {
+      const set = await context.state.db.trainingSets
+        .where("exerciseId")
+        .equals(parseInt(exerciseId))
+        .and((trainingSet) => trainingSet.workoutId < currentWorkoutId)
+        .first();
+
+      const workoutId = set?.workoutId;
+      if (!workoutId) return [];
+
+      return context.state.db.trainingSets.where("workoutId").equals(workoutId).toArray();
     },
   },
 });

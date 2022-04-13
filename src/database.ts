@@ -21,6 +21,12 @@ export class Database extends Dexie {
       exercises: "++id, &name",
     });
 
+    this.version(3).stores({
+      workouts: "++id, &[year+month+day]",
+      trainingSets: "++id, [workoutId+exerciseId], [exerciseId+workoutId]",
+      exercises: "++id, &name",
+    });
+
     this.workouts = this.table("workouts");
     this.trainingSets = this.table("trainingSets");
     this.exercises = this.table("exercises");
@@ -29,8 +35,7 @@ export class Database extends Dexie {
     this.initData().then();
   }
 
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  async initData() {
+  async initData(): Promise<void> {
     if ((await this.exercises.count()) === 0) {
       this.exercises.add(new Exercise("Deadlifts"));
       this.exercises.add(new Exercise("Push Ups"));

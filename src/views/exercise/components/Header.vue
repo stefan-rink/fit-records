@@ -30,12 +30,15 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
+@import "./../../variables";
+
 .header {
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: #e4e4e4;
   position: relative;
+  height: @header-height;
   width: 100%;
 
   h1 {

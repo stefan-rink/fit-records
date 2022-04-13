@@ -35,6 +35,7 @@ export default defineComponent({
 
 <style lang="less">
 @import "assets/fonts/style.css";
+@import "views/variables";
 
 * {
   box-sizing: border-box;
@@ -77,8 +78,15 @@ input[type="text"] {
 
 main {
   width: 100%;
-  max-width: 560px;
-  margin: 16px auto;
+  height: calc(100% - @header-height);
+  overflow-y: auto;
+
+  & > .content {
+    width: 100%;
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 16px 0;
+  }
 
   h1 {
     margin-bottom: 16px;
@@ -103,13 +111,17 @@ button.btn {
   color: #333;
 }
 
+section {
+  width: 100%;
+}
+
 div#app-wrapper {
   display: grid;
   grid-template: "main";
   background-color: white;
   height: 100%;
   width: 100%;
-  margin: 0;
+  margin: 0 auto;
   transform: translateY(0);
 
   & > * {
