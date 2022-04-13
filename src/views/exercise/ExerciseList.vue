@@ -73,10 +73,11 @@ export default defineComponent({
   ul {
     list-style: none;
     padding: 0;
+    margin: 0;
 
     li {
       font-size: 24px;
-      padding: 8px 32px;
+      padding: 8px 0;
 
       a {
         color: #333;
@@ -90,8 +91,8 @@ export default defineComponent({
   display: flex;
   gap: 8px;
   width: 100%;
-  padding: 0 32px;
-  margin-top: 24px;
+  padding: 0;
+  margin-top: 16px;
   position: relative;
 
   label {

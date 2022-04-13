@@ -48,7 +48,7 @@ export default defineComponent({
 
   .icon {
     position: absolute;
-    top: 16px;
+    top: 18px;
     height: 28px;
     width: 28px;
   }

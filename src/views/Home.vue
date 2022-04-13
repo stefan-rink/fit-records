@@ -188,6 +188,7 @@ header {
 
 .home-content {
   padding: 16px;
+  height: 100%;
 
   .exercise {
     margin: 16px 0;

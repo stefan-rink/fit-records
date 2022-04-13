@@ -80,6 +80,7 @@ main {
   width: 100%;
   height: calc(100% - @header-height);
   overflow-y: auto;
+  padding: 0 24px;
 
   & > .content {
     width: 100%;

@@ -148,44 +148,41 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
-section {
-  height: 100%;
-  width: 100%;
+main {
+  padding-top: 8px;
 
-  main {
-    h1 {
-      padding: 0;
+  h1 {
+    padding: 0;
 
-      span {
-        font-style: italic;
-        font-size: 16px;
-        color: #666;
-      }
+    span {
+      font-style: italic;
+      font-size: 16px;
+      color: #666;
     }
+  }
 
-    .slider,
-    h1 {
-      margin-bottom: 8px;
-    }
+  .slider,
+  h1 {
+    margin-bottom: 8px;
+  }
 
-    .train-sets-headline {
-      margin-top: 48px;
-    }
+  .train-sets-headline {
+    margin-top: 48px;
+  }
 
-    ol {
-      font-size: 20px;
+  ol {
+    font-size: 20px;
 
-      li .train-set-content {
-        display: grid;
-        max-width: 300px;
-        grid-template-columns: 1fr 1fr 1fr;
-        padding-left: 16px;
+    li .train-set-content {
+      display: grid;
+      max-width: 300px;
+      grid-template-columns: 1fr 1fr 1fr;
+      padding-left: 16px;
 
-        .icon {
-          width: 24px;
-          height: 24px;
-          cursor: pointer;
-        }
+      .icon {
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
       }
     }
   }
