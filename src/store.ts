@@ -150,12 +150,14 @@ export default createStore({
         .where("exerciseId")
         .equals(parseInt(exerciseId))
         .and((trainingSet) => trainingSet.workoutId < currentWorkoutId)
-        .first();
+        .last();
 
       const workoutId = set?.workoutId;
       if (!workoutId) return [];
 
-      return context.state.db.trainingSets.where("workoutId").equals(workoutId).toArray();
+      return context.state.db.trainingSets
+        .where({ workoutId: workoutId, exerciseId: parseInt(exerciseId) })
+        .toArray();
     },
   },
 });
