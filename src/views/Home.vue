@@ -17,7 +17,12 @@
     <main class="home-content">
       <div class="content">
         <template v-if="exercises.length">
-          <div class="exercise" v-for="exercise of exercises" :key="exercise">
+          <div
+            class="exercise"
+            v-for="exercise of exercises"
+            :key="exercise"
+            @click="openTrainingSet(exercise.id)"
+          >
             <h2>{{ exercise.name }}</h2>
             <ol>
               <li
@@ -109,6 +114,12 @@ export default defineComponent({
       });
     },
 
+    // Loads an already started set
+    async openTrainingSet(exerciseId: number) {
+      if (!this.isTodaysWorkout()) return;
+      await this.$router.push({ name: "Train", params: { exerciseId } });
+    },
+
     async nextWorkout() {
       this.workout = await store.dispatch("getNextWorkout", this.workout.id);
 
@@ -122,17 +133,20 @@ export default defineComponent({
     },
 
     getWorkoutDate() {
+      if (this.isTodaysWorkout()) {
+        return "Today";
+      }
+      return `${this.workout.day}.${this.workout.month}.${this.workout.year}`;
+    },
+
+    isTodaysWorkout() {
       const date = new Date();
 
-      if (
+      return (
         this.workout.day == date.getUTCDate() &&
         this.workout.month == date.getMonth() + 1 &&
         this.workout.year == date.getFullYear()
-      ) {
-        return "Today";
-      }
-
-      return `${this.workout.day}.${this.workout.month}.${this.workout.year}`;
+      );
     },
   },
 });

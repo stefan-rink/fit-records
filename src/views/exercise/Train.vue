@@ -111,6 +111,7 @@ export default defineComponent({
       this.weight = trainingSet.weight;
       this.reps = trainingSet.reps;
     },
+
     /**
      * Update the training set which ist currently in edit mode
      */
@@ -130,6 +131,7 @@ export default defineComponent({
       this.editing = -1;
     },
   },
+
   async beforeCreate() {
     // Load the exercise whose id was passed by the router
     this.exercise = (await store.dispatch("getExercise", parseInt(this.exerciseId))) as Exercise;
