@@ -10,6 +10,7 @@
         <Slider class="slider" v-model:model-value="reps" unit="reps" />
         <Slider class="slider" v-model:model-value="weight" :delta="2.5" />
         <button class="btn" @click="addTrainingSet">Done</button>
+        <button class="btn btn-delete" @click="deleteSet" v-if="editing > -1">Delete</button>
 
         <div class="already-finished-reps">
           <h2 v-if="trainingSets.length" class="train-sets-headline">Already finished</h2>
@@ -95,6 +96,29 @@ export default defineComponent({
       await store.dispatch("addTrainingSet", trainingSet);
 
       // Get refreshed list of training sets of this exercise for the current workout
+      await this.refreshList();
+    },
+
+    /**
+     * Delete a training set
+     */
+    async deleteSet() {
+      // Only possible to delete a set if editing one
+      if (this.editing === -1) {
+        await this.editTrainingSet();
+        return;
+      }
+
+      await store.dispatch("deleteTrainingSet", this.trainingSets[this.editing].id);
+
+      this.editing = -1;
+      await this.refreshList();
+    },
+
+    /**
+     * Refresh list
+     */
+    async refreshList() {
       this.trainingSets = await store.dispatch("getTrainingSets", [
         this.todaysWorkout.id,
         this.exercise.id,
@@ -150,6 +174,10 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
+.btn-delete {
+  margin-top: 8px;
+}
+
 main {
   padding-top: 8px;
 

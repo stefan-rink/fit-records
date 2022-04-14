@@ -113,6 +113,13 @@ export default createStore({
     },
 
     /**
+     * Delete training set entry from db
+     */
+    deleteTrainingSet(context, trainingSetId) {
+      return context.state.db.trainingSets.delete(trainingSetId);
+    },
+
+    /**
      * Returns all trainings set matching the exercise of a specific workout
      */
     getTrainingSets(context, [workoutId, exerciseId]): Promise<TrainingSet[]> {

@@ -110,6 +110,11 @@ button.btn {
   font-size: 20px;
   cursor: pointer;
   color: #333;
+
+  &.btn-delete {
+    color: darkred;
+    background-color: #da9191;
+  }
 }
 
 section {
