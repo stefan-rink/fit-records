@@ -132,6 +132,17 @@ export default defineComponent({
         this.todaysWorkout.id,
         this.exercise.id,
       ]);
+
+      await this.getLastExecutionParameters();
+    },
+
+    /**
+     * Get weight and reps of the last execution of the selected exercise
+     */
+    async getLastExecutionParameters() {
+      const trainingSet = await store.dispatch("getLastExerciseExecution", this.exercise.id);
+      this.reps = trainingSet?.reps || 12;
+      this.weight = trainingSet?.weight || 30;
     },
 
     /**
@@ -170,6 +181,9 @@ export default defineComponent({
     this.exercise = (await store.dispatch("getExercise", parseInt(this.exerciseId))) as Exercise;
     // Get the workout for the current day
     this.todaysWorkout = await store.dispatch("getWorkout");
+
+    // Get last entry for chosen exercise to prefill input elements
+    await this.getLastExecutionParameters();
 
     // Load additional information if a workout for today's has been created already
     if (this.todaysWorkout.id) {

@@ -3,6 +3,7 @@ import { Workout } from "@/models/Workout";
 import { Database } from "@/database";
 import { Exercise } from "@/models/Exercise";
 import { TrainingSet } from "@/models/TrainingSet";
+import store from "@/store";
 
 export class RootState {
   /**
@@ -141,6 +142,17 @@ export default createStore({
       }
 
       return context.state.db.trainingSets.where(filter).toArray();
+    },
+
+    /**
+     * Return the latest training set entry to determine the parameters of the last execution
+     */
+    async getLastExerciseExecution(
+      context,
+      exerciseId: string | number
+    ): Promise<TrainingSet | undefined> {
+      exerciseId = typeof exerciseId === "string" ? parseInt(exerciseId) : exerciseId;
+      return await store.state.db.trainingSets.where({ exerciseId: exerciseId }).last();
     },
 
     /**
