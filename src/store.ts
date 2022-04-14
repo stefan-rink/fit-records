@@ -29,6 +29,9 @@ export default createStore({
     },
   },
   actions: {
+    /**
+     * Returns the workout object for today
+     */
     async getWorkout(context): Promise<Workout> {
       // Today's date, to specify the workout
       const todayDate = new Date();
@@ -46,6 +49,9 @@ export default createStore({
       return context.state.selectedWorkout as Workout;
     },
 
+    /**
+     * Get the workout before the workout with the given id (currentWorkoutId)
+     */
     async getPreviousWorkout(
       context,
       currentWorkoutId = Number.MAX_SAFE_INTEGER
@@ -62,6 +68,9 @@ export default createStore({
       return workout;
     },
 
+    /**
+     * Get the workout before the workout with the given id (currentWorkoutId)
+     */
     async getNextWorkout(context, currentWorkoutId: number) {
       // TODO: Change to date instead of ID?
       const workout = await this.state.db.workouts.where("id").above(currentWorkoutId).first();

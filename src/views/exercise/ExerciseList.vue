@@ -46,11 +46,6 @@ export default defineComponent({
   name: "ExerciseList",
   components: { Header },
   async beforeCreate() {
-    // Add the new workout if not done yet TODO: move to training set
-    if (store.state.selectedWorkout && !store.state.selectedWorkout.id) {
-      await store.dispatch("saveSelectedWorkout");
-    }
-
     // Load all exercise
     this.exercises = await store.dispatch("getExercises");
   },

@@ -81,6 +81,15 @@ export default defineComponent({
   },
   methods: {
     async addTrainingSet() {
+      // Create todays workout if not already done yet
+      if (!this.todaysWorkout.id) {
+        if (store.state.selectedWorkout && !store.state.selectedWorkout.id) {
+          await store.dispatch("saveSelectedWorkout");
+          // Get the newly created workout to have
+          this.todaysWorkout = await store.dispatch("getWorkout");
+        }
+      }
+
       if (this.editing > -1) {
         await this.editTrainingSet();
         return;
@@ -162,13 +171,16 @@ export default defineComponent({
     // Get the workout for the current day
     this.todaysWorkout = await store.dispatch("getWorkout");
 
-    // Get list of already done sets in the workout and exercise
-    this.trainingSets = await store.dispatch("getTrainingSets", [
-      this.todaysWorkout.id,
-      this.exercise.id,
-    ]);
+    // Load additional information if a workout for today's has been created already
+    if (this.todaysWorkout.id) {
+      // Get list of already done sets in the workout and exercise
+      this.trainingSets = await store.dispatch("getTrainingSets", [
+        this.todaysWorkout.id,
+        this.exercise.id,
+      ]);
 
-    this.lastSet = await store.dispatch("getLastSet", [this.exerciseId, this.todaysWorkout.id]);
+      this.lastSet = await store.dispatch("getLastSet", [this.exerciseId, this.todaysWorkout.id]);
+    }
   },
 });
 </script>
