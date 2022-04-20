@@ -9,7 +9,7 @@
 
         <label>
           Name:
-          <input type="text" v-model="exercise.name" />
+          <input type="text" placeholder="New Exercise" v-model="exercise.name" />
         </label>
 
         <button class="btn" @click="save">Save</button>
@@ -37,7 +37,7 @@ export default defineComponent({
   },
   data() {
     return {
-      exercise: new Exercise("New Exercise"),
+      exercise: new Exercise(""),
     };
   },
   methods: {
