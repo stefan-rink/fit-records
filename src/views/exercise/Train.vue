@@ -32,15 +32,10 @@
         <div class="last-set-done">
           <h2 v-if="lastSet.length" class="train-sets-headline">Last set done</h2>
           <ol>
-            <li :key="exercise" v-for="(exercise, index) of lastSet">
+            <li :key="exercise" v-for="exercise of lastSet">
               <div class="train-set-content">
                 <span>{{ exercise.reps }} reps</span>
                 <span>{{ exercise.weight }} kg</span>
-                <span>
-                  <svg class="icon" @click="editSet(index)">
-                    <use :xlink:href="`${require('@/assets/icons.svg')}#edit`"></use>
-                  </svg>
-                </span>
               </div>
             </li>
           </ol>
