@@ -143,8 +143,8 @@ export default defineComponent({
      */
     async getLastExecutionParameters() {
       const trainingSet = await store.dispatch("getLastExerciseExecution", this.exercise.id);
-      this.reps = trainingSet?.reps || 12;
-      this.weight = trainingSet?.weight || 30;
+      this.reps = trainingSet?.reps ?? 12;
+      this.weight = trainingSet?.weight ?? 30;
     },
 
     /**
