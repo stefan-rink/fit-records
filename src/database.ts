@@ -1,12 +1,14 @@
-import Dexie from "dexie";
+import Dexie, { Transaction } from "dexie";
 import { Workout } from "@/models/Workout";
 import { TrainingSet } from "@/models/TrainingSet";
 import { Exercise } from "@/models/Exercise";
+import { Records } from "@/models/Records";
 
 export class Database extends Dexie {
   workouts: Dexie.Table<Workout, number>;
   trainingSets: Dexie.Table<TrainingSet, number>;
   exercises: Dexie.Table<Exercise, number>;
+  records: Dexie.Table<Records, number>;
 
   constructor() {
     super("database");
@@ -27,9 +29,26 @@ export class Database extends Dexie {
       exercises: "++id, &name",
     });
 
+    // Add records table
+    this.version(10)
+      .stores({
+        workouts: "++id, &[year+month+day]",
+        trainingSets: "++id, [workoutId+exerciseId], [exerciseId+workoutId], timestamp",
+        exercises: "++id, &name",
+        records: "++id, &[exerciseId+reps]",
+      })
+      .upgrade((transaction: Transaction) => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        return transaction.trainingSets.toCollection().modify((trainingSet: TrainingSet) => {
+          trainingSet.timestamp = 0;
+        });
+      });
+
     this.workouts = this.table("workouts");
     this.trainingSets = this.table("trainingSets");
     this.exercises = this.table("exercises");
+    this.records = this.table("records");
 
     // Initialize sample exercises
     this.initData().then();

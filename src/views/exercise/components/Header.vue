@@ -23,7 +23,7 @@ export default defineComponent({
   name: "Header",
   props: {
     title: String,
-    back: String,
+    back: [Object, String],
     close: String,
   },
 });

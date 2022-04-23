@@ -3,6 +3,7 @@ import ExerciseList from "@/views/exercise/ExerciseList.vue";
 import Train from "@/views/exercise/Train.vue";
 import Home from "@/views/Home.vue";
 import Exercise from "@/views/exercise/Exercise.vue";
+import Records from "@/views/exercise/Records.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -37,6 +38,15 @@ const routes: Array<RouteRecordRaw> = [
     props: true,
     meta: {
       index: 3,
+    },
+  },
+  {
+    path: "/records",
+    name: "Records",
+    component: Records,
+    props: true,
+    meta: {
+      index: 4,
     },
   },
 ];

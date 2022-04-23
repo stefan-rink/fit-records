@@ -5,7 +5,13 @@
     <main>
       <div class="content">
         <h1>
-          {{ exercise.name }} <span v-if="editing > -1">editing set no. {{ editing + 1 }}</span>
+          {{ exercise.name }}
+          <span v-if="editing > -1">editing set no. {{ editing + 1 }}</span>
+          <router-link :to="{ name: 'Records', params: { exerciseId: exercise.id } }">
+            <svg class="icon">
+              <use :xlink:href="`${require('@/assets/icons.svg')}#trophy`"></use>
+            </svg>
+          </router-link>
         </h1>
         <Slider class="slider" v-model:model-value="reps" unit="reps" />
         <Slider class="slider" v-model:model-value="weight" :delta="2.5" />
@@ -95,7 +101,8 @@ export default defineComponent({
         this.todaysWorkout.id as number,
         this.exercise.id as number,
         this.reps,
-        this.weight
+        this.weight,
+        Date.now()
       );
       await store.dispatch("addTrainingSet", trainingSet);
 
@@ -204,11 +211,17 @@ main {
 
   h1 {
     padding: 0;
+    display: flex;
 
     span {
       font-style: italic;
       font-size: 16px;
       color: #666;
+    }
+
+    a {
+      padding: 0 9px;
+      margin-left: auto;
     }
   }
 

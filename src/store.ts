@@ -4,6 +4,8 @@ import { Database } from "@/database";
 import { Exercise } from "@/models/Exercise";
 import { TrainingSet } from "@/models/TrainingSet";
 import store from "@/store";
+import { RecordsWrapper } from "@/RecordsWrapper";
+import { Records } from "@/models/Records";
 
 export class RootState {
   /**
@@ -134,11 +136,14 @@ export default createStore({
      */
     getTrainingSets(context, [workoutId, exerciseId]): Promise<TrainingSet[]> {
       // Build the filter object to gather the right training sets
-      let filter = {};
+      const filter: { workoutId?: number; exerciseId?: number } = {};
+
       if (exerciseId) {
-        filter = { workoutId: workoutId, exerciseId: exerciseId };
-      } else {
-        filter = { workoutId: workoutId };
+        filter["exerciseId"] = exerciseId;
+      }
+
+      if (workoutId) {
+        filter["workoutId"] = workoutId;
       }
 
       return context.state.db.trainingSets.where(filter).toArray();
@@ -173,7 +178,7 @@ export default createStore({
     /**
      * Returns the set of an exercise from the previous workout
      */
-    getLastSet: async function (context, [exerciseId, currentWorkoutId]): Promise<TrainingSet[]> {
+    async getLastSet(context, [exerciseId, currentWorkoutId]): Promise<TrainingSet[]> {
       const set = await context.state.db.trainingSets
         .where("exerciseId")
         .equals(parseInt(exerciseId))
@@ -186,6 +191,70 @@ export default createStore({
       return context.state.db.trainingSets
         .where({ workoutId: workoutId, exerciseId: parseInt(exerciseId) })
         .toArray();
+    },
+
+    /**
+     * Refreshes the records table
+     */
+    async buildRecords(context) {
+      const lastRecordsTimestamp = parseInt(
+        window.localStorage.getItem("records-timestamp") || "0"
+      );
+
+      const recordsWrapper = new RecordsWrapper(
+        (await context.state.db.records.orderBy("exerciseId").toArray()) || []
+      );
+
+      const currentWorkout: Workout = await store.dispatch("getWorkout");
+
+      // Get all training sets between last indexing and the beginning of the current workout
+      const setsSinceLastRebuild = await context.state.db.trainingSets
+        .where("timestamp")
+        .between(lastRecordsTimestamp, Workout.getTimestamp(currentWorkout))
+        .toArray();
+
+      // Add all new records to the data structure
+      recordsWrapper.appendAll(setsSinceLastRebuild);
+
+      // Refresh records table in indexeddb
+      await context.state.db.records.bulkPut(recordsWrapper.toArray());
+
+      window.localStorage.setItem("records-timestamp", Date.now().toString());
+    },
+
+    /**
+     * Returns all records or records of specific exercise if id is given
+     */
+    async getCurrentRecords(context, exerciseId = -1): Promise<Records[]> {
+      // Today's workout
+      const workout: Workout = await context.dispatch("getWorkout");
+
+      // Previous records from the indexeddb
+      let records: Records[];
+
+      // Exercises of the current workout that should be added to current records
+      let additionalExercises: TrainingSet[];
+
+      if (exerciseId > 0) {
+        records =
+          (await context.state.db.records.where("exerciseId").equals(exerciseId).toArray()) || [];
+      } else {
+        records = (await context.state.db.records.orderBy("exerciseId").toArray()) || [];
+      }
+
+      // Build records data structure
+      const recordsWrapper = new RecordsWrapper(records);
+
+      // If today's workout is already started, use its sets to calculate current records
+      if (workout.id) {
+        additionalExercises = await context.dispatch("getTrainingSets", [
+          workout.id,
+          exerciseId == -1 ? null : exerciseId,
+        ]);
+        recordsWrapper.appendAll(additionalExercises);
+      }
+
+      return recordsWrapper.toArray();
     },
   },
 });

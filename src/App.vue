@@ -11,6 +11,7 @@
 <script lang="ts">
 import Home from "@/views/Home.vue";
 import { defineComponent } from "vue";
+import store from "@/store";
 
 export default defineComponent({
   components: { Home },
@@ -18,6 +19,9 @@ export default defineComponent({
     return {
       transitionName: "",
     };
+  },
+  beforeCreate() {
+    store.dispatch("buildRecords");
   },
   watch: {
     $route(to, from) {
