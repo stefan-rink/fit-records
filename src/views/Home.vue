@@ -160,7 +160,7 @@ export default defineComponent({
 section {
   height: 100%;
   padding-top: @header-height;
-  padding-bottom: calc(@footer-height + calc(env(safe-area-inset-bottom)));
+  padding-bottom: calc(@footer-height + calc(env(safe-area-inset-bottom) / 4));
   margin: 0 auto;
 }
 
@@ -201,7 +201,7 @@ header {
 }
 
 .home-content {
-  padding: 16px;
+  padding: 8px 16px;
   height: 100%;
 
   .exercise {
@@ -211,6 +211,10 @@ header {
 
     &:first-child {
       margin-top: 0;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
     }
 
     h2 {
