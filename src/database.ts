@@ -1,4 +1,4 @@
-import Dexie, { Transaction } from "dexie";
+import Dexie from "dexie";
 import { Workout } from "@/models/Workout";
 import { TrainingSet } from "@/models/TrainingSet";
 import { Exercise } from "@/models/Exercise";
@@ -30,19 +30,19 @@ export class Database extends Dexie {
     });
 
     // Add records table
-    this.version(10)
+    this.version(12)
       .stores({
         workouts: "++id, &[year+month+day]",
         trainingSets: "++id, [workoutId+exerciseId], [exerciseId+workoutId], timestamp",
         exercises: "++id, &name",
         records: "++id, &[exerciseId+reps]",
       })
-      .upgrade((transaction: Transaction) => {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        return transaction.trainingSets.toCollection().modify((trainingSet: TrainingSet) => {
-          trainingSet.timestamp = 0;
-        });
+      .upgrade(async () => {
+        const trainingSets = await this.trainingSets.toArray();
+
+        trainingSets.map((set) => (set.timestamp = 0));
+
+        this.trainingSets.bulkPut(trainingSets);
       });
 
     this.workouts = this.table("workouts");
