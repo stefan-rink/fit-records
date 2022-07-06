@@ -187,15 +187,16 @@ export default defineComponent({
     // Get last entry for chosen exercise to prefill input elements
     await this.getLastExecutionParameters();
 
+    this.lastSet = await store.dispatch("getLastSet", [this.exerciseId, this.todaysWorkout.id]);
+
     // Load additional information if a workout for today's has been created already
     if (this.todaysWorkout.id) {
       // Get list of already done sets in the workout and exercise
+
       this.trainingSets = await store.dispatch("getTrainingSets", [
         this.todaysWorkout.id,
         this.exercise.id,
       ]);
-
-      this.lastSet = await store.dispatch("getLastSet", [this.exerciseId, this.todaysWorkout.id]);
     }
   },
 });

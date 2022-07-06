@@ -179,6 +179,10 @@ export default createStore({
      * Returns the set of an exercise from the previous workout
      */
     async getLastSet(context, [exerciseId, currentWorkoutId]): Promise<TrainingSet[]> {
+      if (!currentWorkoutId) {
+        currentWorkoutId = Number.MAX_SAFE_INTEGER;
+      }
+
       const set = await context.state.db.trainingSets
         .where("exerciseId")
         .equals(parseInt(exerciseId))
