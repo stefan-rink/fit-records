@@ -6,7 +6,7 @@
         <input
           ref="number-input"
           type="number"
-          v-model="value"
+          v-model.number="value"
           size="4"
           maxlength="4"
           @keyup="resize"
@@ -72,8 +72,11 @@ export default defineComponent({
 
     value(val) {
       if (!this.value) this.value = 0;
-      else this.value = parseFloat(String(this.value));
-      this.$emit("update:modelValue", val);
+      else this.value = parseFloat(String(val));
+
+      // Hack to prevent leading zeros
+      (this.$refs["number-input"] as HTMLInputElement).value = String(this.value);
+      this.$emit("update:modelValue", this.value);
     },
   },
 });
