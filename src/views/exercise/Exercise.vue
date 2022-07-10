@@ -1,6 +1,6 @@
 <template>
   <section>
-    <Header back="list" close="/">Exercises</Header>
+    <Header :back="backRoute" close="/">Exercises</Header>
 
     <main>
       <div class="content">
@@ -30,6 +30,9 @@ export default defineComponent({
     Header,
   },
   props: {
+    back: {
+      type: String,
+    },
     exerciseId: {
       type: String,
       default: null,
@@ -38,6 +41,7 @@ export default defineComponent({
   data() {
     return {
       exercise: new Exercise(""),
+      backRoute: "list",
     };
   },
   methods: {
@@ -54,6 +58,11 @@ export default defineComponent({
     // If there is an exercise id passed by the router load the exercise
     if (this.exerciseId) {
       this.exercise = (await store.dispatch("getExercise", parseInt(this.exerciseId))) as Exercise;
+    }
+    if (this.back) {
+      this.backRoute = JSON.parse(this.back);
+    } else {
+      this.backRoute = "list";
     }
   },
 });

@@ -5,14 +5,30 @@
     <main>
       <div class="content">
         <h1>
-          {{ exercise.name }}
-          <span v-if="editing > -1">editing set no. {{ editing + 1 }}</span>
-          <router-link :to="{ name: 'Records', params: { exerciseId: exercise.id } }">
-            <svg class="icon">
-              <use :xlink:href="`${require('@/assets/icons.svg')}#trophy`"></use>
-            </svg>
-          </router-link>
+          <span>{{ exercise.name }}</span>
+          <span class="icons">
+            <router-link
+              :to="{
+                name: 'Exercise',
+                params: {
+                  exerciseId: exercise.id,
+                  back: JSON.stringify({ name: 'Train', params: { exerciseId: exercise.id } }),
+                  // TODO: May switch to query parameters, this smells.
+                },
+              }"
+            >
+              <svg class="icon">
+                <use :xlink:href="`${require('@/assets/icons.svg')}#edit`"></use>
+              </svg>
+            </router-link>
+            <router-link :to="{ name: 'Records', params: { exerciseId: exercise.id } }">
+              <svg class="icon">
+                <use :xlink:href="`${require('@/assets/icons.svg')}#trophy`"></use>
+              </svg>
+            </router-link>
+          </span>
         </h1>
+        <h4 class="sub-heading" v-if="editing > -1">editing set no. {{ editing + 1 }}</h4>
         <Slider class="slider" v-model:model-value="reps" unit="reps" />
         <Slider class="slider" v-model:model-value="weight" :delta="2.5" />
         <button class="btn" @click="addTrainingSet">Done</button>
@@ -82,7 +98,7 @@ export default defineComponent({
   },
   methods: {
     async addTrainingSet() {
-      // Create todays workout if not already done yet
+      // Create today's workout if not already done yet
       if (!this.todaysWorkout.id) {
         if (store.state.selectedWorkout && !store.state.selectedWorkout.id) {
           await store.dispatch("saveSelectedWorkout");
@@ -214,10 +230,8 @@ main {
     padding: 0;
     display: flex;
 
-    span {
-      font-style: italic;
-      font-size: 16px;
-      color: #666;
+    span:not(.icons) {
+      flex-grow: 1;
     }
 
     a {
@@ -229,6 +243,13 @@ main {
   .slider,
   h1 {
     margin-bottom: 8px;
+  }
+
+  h4.sub-heading {
+    font-style: italic;
+    font-size: 16px;
+    color: #666;
+    margin: 0 0 8px;
   }
 
   .train-sets-headline {
