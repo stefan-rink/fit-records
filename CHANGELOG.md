@@ -44,6 +44,3 @@ All notable changes to this project will be documented in this file. See [standa
 * Style adjustments ([90d1037](https://github.com/stefan-rink/fit-records/commit/90d1037dbe47b1a231bbe9a175e815b311fac8ca))
 * Use placeholder in exercise creation ([48ab680](https://github.com/stefan-rink/fit-records/commit/48ab680154f7235061e2afbf38cdd8741760545b))
 * Wrong indexedDb access to receive last set ([00434b3](https://github.com/stefan-rink/fit-records/commit/00434b34d605dbb2acb9f6b73e5a2a98844316db))
-
-# Changelog
-
