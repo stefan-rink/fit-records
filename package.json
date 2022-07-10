@@ -1,12 +1,18 @@
 {
   "name": "fit-records",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "deploy": "node scripts/deploy.js"
+    "deploy": "node scripts/deploy.js",
+    "version": "npx standard-version"
+  },
+  "release": {
+    "branches": [
+      "main"
+    ]
   },
   "dependencies": {
     "core-js": "^3.6.5",
@@ -38,6 +44,7 @@
     "less": "^3.0.4",
     "less-loader": "^5.0.0",
     "prettier": "^2.2.1",
+    "standard-version": "^9.5.0",
     "typescript": "~4.1.5"
   }
 }
