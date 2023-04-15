@@ -114,7 +114,8 @@ export default createStore({
      * @return id of the entry
      */
     setExercise(context, exercise: Exercise): Promise<number> {
-      return context.state.db.exercises.put(exercise);
+      // Use json clone to unwrap Proxy object as dexiejs cannot handle it
+      return context.state.db.exercises.put(JSON.parse(JSON.stringify(exercise)));
     },
 
     /**
